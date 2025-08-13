@@ -86,7 +86,7 @@ http://localhost/Shine/index.php
 ---
 
 ## 👥 Authors
-- [Fatima alzhrani]
-- [Reham alotibi]
-- [lana aljuaid]
-- [asma alasmri]
+- [Fatima Al-zhrani]
+- [Reham Al-Otaibii]
+- [Lana Al-Jaed]
+- [Asma'a Al-Asmari]
