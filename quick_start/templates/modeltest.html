@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makeup Transfer</title>
+</head>
+<body>
+    <h1>Makeup Transfer</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="non_makeup">Upload Non-Makeup Image:</label>
+        <input type="file" id="non_makeup" name="non_makeup" required>
+        <br><br>
+        <label for="makeup">Upload Makeup Image:</label>
+        <input type="file" id="makeup" name="makeup" required>
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Result:</h2>
+    <img id="resultImage" src="" alt="Result Image" style="max-width: 100%; display: none;">
+    <br>
+    <button id="saveButton" style="display: none;">Save Result</button>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const saveButton = document.getElementById('saveButton');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            const nonMakeup = document.getElementById('non_makeup').files[0];
+            const makeup = document.getElementById('makeup').files[0];
+
+            formData.append('non_makeup', nonMakeup);
+            formData.append('makeup', makeup);
+
+            const response = await fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const resultImage = document.getElementById('resultImage');
+                resultImage.src = url;
+                resultImage.style.display = 'block';
+                saveButton.style.display = 'inline-block';
+
+                // إضافة خاصية الحفظ عند الضغط على الزر
+                saveButton.onclick = () => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'result.png';
+                    a.click();
+                };
+            } else {
+                alert('Error processing images.');
+            }
+        });
+    </script>
+</body>
+</html>
